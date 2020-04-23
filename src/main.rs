@@ -4,7 +4,7 @@ use std::io::prelude::*;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let config = parse_config(&args);
+    let config = Config::new(&args);
 
     let mut f = File::open(config.file_name).expect("file not found");
 
@@ -20,10 +20,10 @@ struct Config {
     file_name: String,
 }
 
-fn parse_config(args: &[String]) -> Config {
-    // プログラム名がVecの[0]だから1から指定
-    // cloneはデータを総コピーするから時間かかる上にメモリを使うがライフタイム管理を避けるために使う。
-    let query = args[1].clone();
-    let file_name = args[2].clone();
-    Config { query, file_name }
+impl Config {
+    fn new(args: &[String]) -> Config {
+        let query = args[1].clone();
+        let file_name = args[2].clone();
+        Config { query, file_name }
+    }
 }
