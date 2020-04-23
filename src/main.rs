@@ -9,7 +9,10 @@ fn main() {
         println!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
+    run(config)
+}
 
+fn run(config: Config) {
     let mut f = File::open(config.file_name).expect("file not found");
 
     let mut contents = String::new();
