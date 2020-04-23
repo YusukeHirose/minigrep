@@ -22,7 +22,8 @@ struct Config {
 
 fn parse_config(args: &[String]) -> Config {
     // プログラム名がVecの[0]だから1から指定
-    let query = &args[1].clone();
-    let file_name = &args[2].clone();
+    // cloneはデータを総コピーするから時間かかる上にメモリを使うがライフタイム管理を避けるために使う。
+    let query = args[1].clone();
+    let file_name = args[2].clone();
     Config { query, file_name }
 }
