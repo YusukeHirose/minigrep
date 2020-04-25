@@ -6,4 +6,8 @@
 ・Rust - 1.42.0
 
 ### 実行コマンド
-```$ cargo run```
+```❯ env CASE_INSENSITIVE=1 cargo run to poem.txt ```
+</br>
+・CASE_INSENSITIVE=0 は小文字大文字区別する。CASE_INSENSITIVE=1は区別しない。</br>
+・第一引数は検索したい単語</br>
+・第二引数はファイル名
