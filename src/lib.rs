@@ -1,3 +1,4 @@
+use std::env;
 use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
@@ -5,6 +6,7 @@ use std::io::prelude::*;
 pub struct Config {
     query: String,
     file_name: String,
+    case_sensitive: bool,
 }
 
 pub fn run(config: Config) -> Result<(), Box<Error>> {
@@ -12,7 +14,13 @@ pub fn run(config: Config) -> Result<(), Box<Error>> {
     let mut contents = String::new();
     f.read_to_string(&mut contents)?;
 
-    for line in search(&config.query, &contents) {
+    let results = if config.case_sensitive {
+        search(&config.query, &contents)
+    } else {
+        search_case_insensitive(&config.query, &contents)
+    };
+
+    for line in results {
         println!("{}", line);
     }
     Ok(())
@@ -25,7 +33,12 @@ impl Config {
         }
         let query = args[1].clone();
         let file_name = args[2].clone();
-        Ok(Config { query, file_name })
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+        Ok(Config {
+            query,
+            file_name,
+            case_sensitive,
+        })
     }
 }
 
